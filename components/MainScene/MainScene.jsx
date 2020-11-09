@@ -39,6 +39,7 @@ import { gsap } from 'gsap'
 import styles from './MainScene.module.css'
 
 import Loader from '../Loader'
+import Cherry from '../Cherry'
 
 // Texture loading examples
 // const envMap = useCubeTexture(
@@ -80,21 +81,21 @@ const Scene = () => {
   const spotLight = useRef()
   const pointLight = useRef()
 
-  useFrame(({ clock }) => {
-    mesh.current.rotation.x = (Math.sin(clock.elapsedTime) * Math.PI) / 4
-    mesh.current.rotation.y = (Math.sin(clock.elapsedTime) * Math.PI) / 4
-    mesh.current.rotation.z = (Math.sin(clock.elapsedTime) * Math.PI) / 4
-    mesh.current.position.x = Math.sin(clock.elapsedTime)
-    mesh.current.position.z = Math.sin(clock.elapsedTime)
-    group.current.rotation.y += 0.02
-  })
+  // useFrame(({ clock }) => {
+  //   mesh.current.rotation.x = (Math.sin(clock.elapsedTime) * Math.PI) / 4
+  //   mesh.current.rotation.y = (Math.sin(clock.elapsedTime) * Math.PI) / 4
+  //   mesh.current.rotation.z = (Math.sin(clock.elapsedTime) * Math.PI) / 4
+  //   mesh.current.position.x = Math.sin(clock.elapsedTime)
+  //   mesh.current.position.z = Math.sin(clock.elapsedTime)
+  //   group.current.rotation.y += 0.02
+  // })
 
-  useEffect(() => void (spotLight.current.target = mesh.current), [scene])
+  // useEffect(() => void (spotLight.current.target = mesh.current), [scene])
   useHelper(spotLight, SpotLightHelper, 'teal')
   useHelper(pointLight, PointLightHelper, 0.5, 'hotpink')
-  useHelper(mesh, BoxHelper, '#272740')
-  useHelper(mesh, VertexNormalsHelper, 1, '#272740')
-  useHelper(mesh, FaceNormalsHelper, 0.5, '#272740')
+  // useHelper(mesh, BoxHelper, '#272740')
+  // useHelper(mesh, VertexNormalsHelper, 1, '#272740')
+  // useHelper(mesh, FaceNormalsHelper, 0.5, '#272740')
 
   return (
     <>
@@ -114,10 +115,11 @@ const Scene = () => {
         angle={0.5}
         distance={20}
       />
-      <mesh ref={mesh} position={[0, 2, 0]} castShadow>
-        <boxGeometry attach="geometry" />
-        <meshStandardMaterial attach="material" color="lightblue" />
-      </mesh>
+      <Cherry
+        forwardRef={mesh}
+        rotation={[Math.PI / 2, Math.PI, 0]}
+        position={[0, 1, 0]}
+      />
       <mesh rotation-x={-Math.PI / 2} receiveShadow>
         <planeBufferGeometry args={[100, 100]} attach="geometry" />
         <shadowMaterial attach="material" opacity={0.5} />
