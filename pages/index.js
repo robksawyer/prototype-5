@@ -8,6 +8,7 @@ import HamburgerMenu from '../components/HamburgerMenu'
 // import WaveText from '../components/WaveText'
 import AudioHorizontalButton from '../components/AudioHorizontalButton'
 import VoiceRecordButton from '../components/VoiceRecordButton'
+import SineWave from '../components/SineWave'
 
 const CursorCircle = dynamic(() => import('../components/CursorCircle'), {
   ssr: false,
@@ -27,6 +28,7 @@ export default function Home() {
         <MainScene />
         <AudioHorizontalButton />
         <VoiceRecordButton />
+        <SineWave />
         {/* <WaveText className="absolute bottom-0 flex items-center justify-center w-screen h-screen pointer-events-none select-none" /> */}
       </main>
 

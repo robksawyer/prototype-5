@@ -1,5 +1,8 @@
 /**
  * @file VoiceRecordButton.js
+ *
+ * @see https://fabricofthenation.com/voices
+ * @see https://www.npmjs.com/package/react-speech-recognition
  */
 import * as React from 'react'
 import PropTypes from 'prop-types'
@@ -176,15 +179,129 @@ const VoiceRecordButton = (props) => {
           display: block;
           vertical-align: middle;
         }
+
+        button,
+        button:active,
+        button:focus {
+          border: none;
+          outline: none;
+          -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+          padding: 0;
+          line-height: inherit;
+          color: inherit;
+        }
+
+        button {
+          background-color: transparent;
+          background-image: none;
+        }
+
+        button,
+        select {
+          text-transform: none;
+        }
+
+        button,
+        input {
+          overflow: visible;
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+          font-family: inherit;
+          font-size: 100%;
+          line-height: 1.15;
+          margin: 0;
+        }
+
+        .ui-record {
+          position: fixed;
+          bottom: 1rem;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          transition: all 0.8s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+          z-index: 60;
+          width: 100%;
+          pointer-events: none;
+        }
+
         .ui-record {
           transform: translateY(200px);
           opacity: 0;
         }
+
+        @media (min-width: 768px) {
+          .ui-record {
+            bottom: 1.25rem;
+          }
+        }
+
         .ui-record.active {
           transition: all 0.8s cubic-bezier(0.6, 0.4, 0.05, 0.95);
           transform: translateY(0);
           opacity: 1;
         }
+
+        .ui-record .icon-holder svg {
+          max-width: 18px;
+          height: auto;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record .icon-holder svg {
+            max-width: 20px;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .ui-record .icon-holder svg {
+            max-width: 20px;
+          }
+        }
+
+        .ui-record .bg {
+          width: 100vw;
+          height: 100vh;
+          position: fixed;
+          bottom: -1rem;
+          left: 0;
+          background: rgba(0, 0, 0, 0.9);
+          pointer-events: none;
+          z-index: -1;
+          transition: all 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+          opacity: 0;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record .bg {
+            background: rgba(0, 0, 0, 0.7);
+          }
+        }
+
+        .ui-record .bg.active {
+          opacity: 1;
+          z-index: 40;
+          pointer-events: all;
+        }
+
+        .ui-record .bg.recording {
+          opacity: 0.2;
+          z-index: 40;
+          pointer-events: all;
+        }
+
         .ui-record .recordFlowTrigger {
           position: absolute;
           bottom: 0;
@@ -198,106 +315,503 @@ const VoiceRecordButton = (props) => {
           text-align: center;
           z-index: 61;
         }
-        .ui-record {
-          position: fixed;
-          bottom: 1rem;
-          -webkit-user-select: none;
-          -moz-user-select: none;
-          -ms-user-select: none;
-          user-select: none;
-          transition: all 0.8s cubic-bezier(0.6, 0.4, 0.05, 0.95);
-          z-index: 60;
-          width: 100%;
-          pointer-events: none;
-        }
-        .ui-record .recordFlowTrigger .reactiveCta.active {
-          opacity: 1;
-        }
+
         .ui-record .recordFlowTrigger .reactiveCta {
           pointer-events: all;
           opacity: 0;
           transition: all 0.3s ease-out;
         }
-        .reactive-cta {
-          width: 140px;
-          height: 140px;
+
+        .ui-record .recordFlowTrigger .reactiveCta.active {
+          opacity: 1;
+        }
+
+        .ui-record .recordFlowTrigger .reactiveCta .icon-holder {
           position: relative;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
         }
-        .reactive-cta .background,
-        .reactive-cta .ring-bg {
+
+        .ui-record .recordFlowTrigger .trigger-copy {
           position: absolute;
-          top: 50%;
+          bottom: 0;
           left: 50%;
-          width: 70%;
-          height: 70%;
-          transform: translate(-50%, -50%);
-          z-index: 1;
+          transform: translateX(-50%);
+          width: 100%;
+          text-align: center;
+          text-transform: uppercase;
+          color: #fff;
+          font-size: 0.6rem;
+          letter-spacing: 0.2rem;
+          margin-right: -0.2rem;
         }
-        .reactive-cta .wiggle-lines,
-        .reactive-cta:active .cta-label,
-        .reactive-cta:hover .cta-label {
+
+        @media (min-width: 768px) {
+          .ui-record .recordFlowTrigger .trigger-copy {
+            font-size: 0.7rem;
+          }
+        }
+
+        .ui-record .recordFlowTrigger .trigger-copy .copy {
+          width: 100%;
+          position: absolute;
+          top: -0.5rem;
+          left: 50%;
+          padding: 0 0.5rem;
+          transition: all 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+          opacity: 0;
+          transform: translateX(-50%) translateY(60px);
+        }
+
+        @media (min-width: 768px) {
+          .ui-record .recordFlowTrigger .trigger-copy .copy {
+            padding: 0 1.5rem;
+          }
+        }
+
+        .ui-record .recordFlowTrigger .trigger-copy .copy.active {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
+        }
+
+        .ui-record .journey {
+          bottom: 83px;
+          position: absolute;
+          width: 100%;
+          left: 50%;
+          transition: transform 0.7s cubic-bezier(0.6, 0.4, 0.05, 0.95),
+            opacity 0.4s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+          transform: translate(-50%, 10px);
+          opacity: 0;
+          z-index: -1;
+          pointer-events: none;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record .journey {
+            bottom: 140px;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .ui-record .journey {
+            bottom: 165px;
+          }
+        }
+
+        .ui-record .journey .box-content {
+          width: 100%;
+          max-width: 1050px;
+          margin: 0 auto;
+        }
+
+        .ui-record .journey.active {
+          pointer-events: all;
+          transition: transform 0.7s cubic-bezier(0.6, 0.4, 0.05, 0.95),
+            opacity 0.7s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+          transform: translate(-50%);
+          opacity: 1;
+          z-index: 70;
+        }
+
+        .ui-record .journey.active .body,
+        .ui-record .journey.active .header {
+          opacity: 1;
+        }
+
+        .ui-record .journey-layout {
+          padding: 0 1.5rem;
+          position: relative;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record .journey-layout {
+            padding: 0 80px;
+          }
+        }
+
+        .ui-record .journey-layout .header {
+          position: relative;
+          width: 100%;
+          padding: 1rem 0;
+          display: flex;
+          align-items: center;
+          justify-content: between;
+          border-bottom: 2px solid #818181;
+          transition: all 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95) 0.6s;
+          opacity: 0;
+        }
+
+        .ui-record .journey-layout .header .step {
+          font-size: 0.65rem;
+          letter-spacing: 0.2rem;
+          margin-right: -0.2rem;
+          transition: all 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+          text-transform: uppercase;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record .journey-layout .header .step {
+            width: 100%;
+            font-size: 1rem;
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .ui-record .journey-layout .header .step {
+            font-size: 1.2rem;
+          }
+        }
+
+        .ui-record .journey-layout .header .back {
+          width: 100%;
+          text-align: right;
+        }
+
+        .ui-record .journey-layout .header .back .backButton {
+          color: #fff;
+          text-transform: uppercase;
+          font-size: 0.65rem;
+          letter-spacing: 0.2rem;
+          margin-right: -0.2rem;
+          transition: all 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+        }
+
+        .ui-record .journey-layout .header .back .backButton:active,
+        .ui-record .journey-layout .header .back .backButton:hover {
           color: #2b9dd8;
         }
 
-        .reactive-cta .dotted-circle {
+        .ui-record .journey-layout .header .back .backButton span {
+          display: inline-block;
+          vertical-align: middle;
+          white-space: nowrap;
+        }
+
+        .ui-record .journey-layout .header .back .backButton .icon {
+          margin-left: 1rem;
+        }
+
+        .ui-record .journey-layout .header .progress-line {
+          bottom: -2px;
+          height: 2px;
+          background: #2b9dd8;
+          transition: all 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+          width: 0;
+        }
+
+        .ui-record .journey-layout .header .progress-line.step-1 {
+          width: 12.5%;
+        }
+
+        .ui-record .journey-layout .header .progress-line.step-2 {
+          width: 25%;
+        }
+
+        .ui-record .journey-layout .header .progress-line.step-3 {
+          width: 37.5%;
+        }
+
+        .ui-record .journey-layout .header .progress-line.step-4 {
+          width: 50%;
+        }
+
+        .ui-record .journey-layout .header .progress-line.step-5 {
+          width: 62.5%;
+        }
+
+        .ui-record .journey-layout .header .progress-line.step-6 {
+          width: 75%;
+        }
+
+        .ui-record .journey-layout .header .progress-line.step-7 {
+          width: 87.5%;
+        }
+
+        .ui-record .journey-layout .header .progress-line.step-8 {
+          width: 100%;
+        }
+
+        .ui-record .journey-layout .body {
+          position: relative;
+          padding: 1rem 0;
+          opacity: 0;
+          transition: all 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95) 0.6s;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record .journey-layout .body {
+            padding: 1.5rem 0;
+          }
+        }
+
+        .ui-record .journey-layout .body .steps-content {
+          position: relative;
+        }
+
+        .ui-record .journey-layout .body .steps-content .step-panel {
           position: absolute;
-          width: 80%;
-          height: 80%;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          border: 2px dotted #2b9dd8;
-          border-radius: 50%;
+          top: 0;
+          opacity: 0;
+          transform: translateX(100px);
+          transition: transform 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95),
+            opacity 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+          pointer-events: none;
+          z-index: -1;
         }
 
-        .reactive-cta.recordJourney .ring-hover {
-          transition: all 0.25s cubic-bezier(0.6, 0.4, 0.05, 0.95);
-          transform: scale(0) translate(-50%, -50%);
-          opacity: 0.4;
-          transform-origin: top left;
+        .ui-record .journey-layout .body .steps-content .step-panel.active {
+          transition: transform 0.75s cubic-bezier(0.6, 0.4, 0.05, 0.95) 0.75s,
+            opacity 0.75s cubic-bezier(0.6, 0.4, 0.05, 0.95) 0.75s;
+          pointer-events: all;
+          position: relative;
+          transform: translateX(0);
+          opacity: 1;
+          z-index: 1;
         }
 
-        .reactive-cta .background svg,
-        .reactive-cta .ring-bg svg {
+        .ui-record .journey-layout .body .steps-content .step-panel h3 {
+          width: 100%;
+          text-transform: none;
+          letter-spacing: 0;
+          font-size: 0.95rem;
+          line-height: 1.3;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record .journey-layout .body .steps-content .step-panel h3 {
+            font-size: 1.6rem;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .ui-record .journey-layout .body .steps-content .step-panel h3 {
+            font-size: 1.8rem;
+          }
+        }
+
+        .ui-record .journey-layout .body .steps-content .step-panel p.desc {
+          margin: 0.5rem 0 0;
+          color: #818181;
+          font-size: 0.8rem;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record .journey-layout .body .steps-content .step-panel p.desc {
+            margin: 1rem 0 0;
+            font-size: 1.1rem;
+          }
+        }
+
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          p.desc.c-blue {
+          color: #2b9dd8;
+          font-style: normal;
+        }
+
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .action-row {
+          width: auto;
+        }
+
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login {
+          width: 100%;
+          padding: 0.5rem;
+          border: 1px solid #2b9dd8;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record
+            .journey-layout
+            .body
+            .steps-content
+            .step-panel
+            .social-login
+            button.login {
+            padding: 1rem;
+          }
+        }
+
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login:nth-child(2n) {
+          margin: 0 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record
+            .journey-layout
+            .body
+            .steps-content
+            .step-panel
+            .social-login
+            button.login:nth-child(2n) {
+            margin: 0 1rem;
+          }
+        }
+
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login
+          .icon {
+          width: 30px;
+          height: auto;
+          display: inline-block;
+          vertical-align: middle;
+        }
+
+        @media (min-width: 768px) {
+          .ui-record
+            .journey-layout
+            .body
+            .steps-content
+            .step-panel
+            .social-login
+            button.login
+            .icon {
+            margin-right: 1rem;
+          }
+        }
+
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login
+          .icon
+          svg {
           width: 100%;
           height: auto;
         }
 
-        .reactive-cta .ring-bg {
-          width: 80%;
-          height: 80%;
-          opacity: 0.16;
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login
+          .legend,
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login
+          .network {
+          vertical-align: middle;
+          text-transform: uppercase;
+          letter-spacing: 0.15rem;
+          margin-right: -0.15rem;
+          font-size: 0.7rem;
+          transition: all 0.3s ease-out;
         }
-        .reactive-cta .content {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 100%;
-          transform: translate(-50%, -50%);
-          z-index: 2;
+
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login:active
+          .legend,
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login:active
+          .network,
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login:hover
+          .legend,
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .social-login
+          button.login:hover
+          .network {
+          color: #2b9dd8;
         }
+
+        .ui-record .journey-layout .body .steps-content .step-panel .stepBack {
+          text-transform: uppercase;
+          font-size: 0.7rem;
+          color: #fff;
+          padding: 1rem 0 1rem 0.5rem;
+          letter-spacing: 0.4rem;
+          margin-right: -0.4rem;
+          cursor: pointer;
+          transition: all 0.3s ease-out;
+        }
+
         @media (min-width: 768px) {
-          .ui-record {
-            bottom: 1.25rem;
-          }
-          .reactive-cta {
-            width: 175px;
-            height: 175px;
-          }
-          .ui-record .recordFlowTrigger .trigger-copy {
-            font-size: 0.7rem;
-          }
-          .ui-record .recordFlowTrigger .trigger-copy .copy {
-            padding: 0 1.5rem;
-          }
-          .reactive-cta.recordJourney .icon-holder svg {
-            max-width: 20px;
+          .ui-record
+            .journey-layout
+            .body
+            .steps-content
+            .step-panel
+            .stepBack {
+            font-size: 0.8rem;
+            padding: 1rem 1.5rem;
           }
         }
 
-        .reactive-cta.recordJourney .icon-holder .mask {
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .stepBack:active,
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .stepBack:hover {
+          color: #2b9dd8;
+        }
+
+        .ui-record
+          .journey-layout
+          .body
+          .steps-content
+          .step-panel
+          .stepBack.rere…
+          .reactive-cta.recordJourney
+          .icon-holder
+          .mask {
           overflow: hidden;
           position: relative;
         }
@@ -346,6 +860,209 @@ const VoiceRecordButton = (props) => {
           transition: all 0.6s cubic-bezier(0.6, 0.4, 0.05, 0.95);
           opacity: 0;
           transform: translateX(-50%) translateY(60px);
+        }
+
+        .reactive-cta.recordJourney:active .ring-hover,
+        .reactive-cta.recordJourney:hover .ring-hover {
+          transform: scale(1) translate(-50%, -50%);
+        }
+
+        .reactive-cta {
+          width: 140px;
+          height: 140px;
+          position: relative;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+
+        @media (min-width: 768px) {
+          .reactive-cta {
+            width: 175px;
+            height: 175px;
+          }
+        }
+
+        .reactive-cta.large {
+          width: 160px;
+          height: 160px;
+        }
+
+        @media (min-width: 768px) {
+          .reactive-cta.large {
+            width: 225px;
+            height: 225px;
+          }
+        }
+
+        .reactive-cta .background,
+        .reactive-cta .ring-bg {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 70%;
+          height: 70%;
+          transform: translate(-50%, -50%);
+          z-index: 1;
+        }
+
+        .reactive-cta .background svg,
+        .reactive-cta .ring-bg svg {
+          width: 100%;
+          height: auto;
+        }
+
+        .reactive-cta .dotted-circle {
+          position: absolute;
+          width: 80%;
+          height: 80%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          border: 2px dotted #2b9dd8;
+          border-radius: 50%;
+        }
+
+        .reactive-cta .ring-bg {
+          width: 80%;
+          height: 80%;
+          opacity: 0.16;
+        }
+
+        .reactive-cta .content {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 100%;
+          transform: translate(-50%, -50%);
+          z-index: 2;
+        }
+
+        .reactive-cta .content .cta-label {
+          text-transform: uppercase;
+          font-size: 0.7rem;
+          letter-spacing: 0.3rem;
+          margin-right: -0.3rem;
+          transition: all 0.2s ease-out;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+
+        @media (min-width: 768px) {
+          .reactive-cta .content .cta-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.35rem;
+            margin-right: -0.35rem;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .reactive-cta .content .cta-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.4rem;
+            margin-right: -0.4rem;
+          }
+        }
+
+        .reactive-cta .svgfill {
+          fill: #fff;
+          transition: all 0.2s ease-out;
+        }
+
+        .reactive-cta .icon-holder {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .reactive-cta .icon-holder svg {
+          max-width: 30px;
+          height: auto;
+        }
+
+        @media (min-width: 768px) {
+          .reactive-cta .icon-holder svg {
+            max-width: 50px;
+          }
+        }
+
+        .reactive-cta .wiggle-lines,
+        .reactive-cta:active .cta-label,
+        .reactive-cta:hover .cta-label {
+          color: #2b9dd8;
+        }
+
+        .reactive-cta:active .svgfill,
+        .reactive-cta:hover .svgfill {
+          fill: #2b9dd8;
+        }
+
+        .reactive-cta.recordJourney .ring-hover {
+          transition: all 0.25s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+          transform: scale(0) translate(-50%, -50%);
+          opacity: 0.4;
+          transform-origin: top left;
+        }
+
+        .reactive-cta.recordJourney .icon-holder svg {
+          max-width: 18px;
+          height: auto;
+        }
+
+        @media (min-width: 768px) {
+          .reactive-cta.recordJourney .icon-holder svg {
+            max-width: 20px;
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .reactive-cta.recordJourney .icon-holder svg {
+            max-width: 20px;
+          }
+        }
+
+        .reactive-cta.recordJourney .icon-holder .mask {
+          overflow: hidden;
+          position: relative;
+        }
+
+        .reactive-cta.recordJourney .icon-holder .mask .off {
+          position: relative;
+          transition: all 0.5s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+        }
+
+        .reactive-cta.recordJourney .icon-holder .mask .on {
+          position: absolute;
+          top: 0;
+          transform: translateY(100%);
+          opacity: 0;
+          transition: all 0.5s cubic-bezier(0.6, 0.4, 0.05, 0.95);
+        }
+
+        .reactive-cta.recordJourney:active .ring-hover,
+        .reactive-cta.recordJourney:hover .ring-hover {
+          transform: scale(1) translate(-50%, -50%);
+        }
+
+        .reactive-cta.recordJourney:active .svgfill,
+        .reactive-cta.recordJourney:hover .svgfill {
+          fill: #fff;
+        }
+
+        .reactive-cta.recordJourney:active .off,
+        .reactive-cta.recordJourney:hover .off {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+
+        .reactive-cta.recordJourney:active .on,
+        .reactive-cta.recordJourney:hover .on {
+          transform: translateY(0) !important;
+          opacity: 1 !important;
         }
 
         .svgfill {
