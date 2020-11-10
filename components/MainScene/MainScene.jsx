@@ -40,6 +40,7 @@ import styles from './MainScene.module.css'
 
 import Loader from '../Loader'
 import Cherry from '../Cherry'
+// import { Instances, Instance } from '../Instances'
 
 // Texture loading examples
 // const envMap = useCubeTexture(
@@ -115,11 +116,21 @@ const Scene = () => {
         angle={0.5}
         distance={20}
       />
+      {/* <Instances> */}
       <Cherry
         forwardRef={mesh}
         rotation={[Math.PI / 2, Math.PI, 0]}
         position={[0, 1, 0]}
       />
+      {/* <Instance position={[1, 1, 0]} rotation={[0, 0, Math.PI / 2]}>
+          <group rotation={[Math.PI / 10, 0, 0]}>
+            <Instance position={[1, 1, 0]} rotation={[0, 0, -Math.PI / 3]}>
+              <Instance position={[0, -5, 0]} rotation={[0, 0, -Math.PI / 3]} />
+            </Instance>
+          </group>
+        </Instance>
+      </Instances> */}
+
       <mesh rotation-x={-Math.PI / 2} receiveShadow>
         <planeBufferGeometry args={[100, 100]} attach="geometry" />
         <shadowMaterial attach="material" opacity={0.5} />
