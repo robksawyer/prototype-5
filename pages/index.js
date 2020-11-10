@@ -7,6 +7,7 @@ import MainScene from '../components/MainScene'
 import HamburgerMenu from '../components/HamburgerMenu'
 // import WaveText from '../components/WaveText'
 import AudioHorizontalButton from '../components/AudioHorizontalButton'
+import VoiceRecordButton from '../components/VoiceRecordButton'
 
 const CursorCircle = dynamic(() => import('../components/CursorCircle'), {
   ssr: false,
@@ -25,6 +26,7 @@ export default function Home() {
       <main className={`${styles.main} flex flex-grow flex-col`}>
         <MainScene />
         <AudioHorizontalButton />
+        <VoiceRecordButton />
         {/* <WaveText className="absolute bottom-0 flex items-center justify-center w-screen h-screen pointer-events-none select-none" /> */}
       </main>
 
