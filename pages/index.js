@@ -10,6 +10,16 @@ import AudioHorizontalButton from '../components/AudioHorizontalButton'
 import VoiceRecordButton from '../components/VoiceRecordButton'
 import SineWave from '../components/SineWave'
 
+const CircleWave = dynamic(() => import('../components/CircleWave'), {
+  ssr: false,
+})
+const CircleWaveButton = dynamic(
+  () => import('../components/CircleWaveButton'),
+  {
+    ssr: false,
+  }
+)
+
 const CursorCircle = dynamic(() => import('../components/CursorCircle'), {
   ssr: false,
 })
@@ -26,9 +36,12 @@ export default function Home() {
       <HamburgerMenu />
       <main className={`${styles.main} flex flex-grow flex-col`}>
         <MainScene />
+        {/* <SineWave /> */}
         <AudioHorizontalButton />
-        <VoiceRecordButton />
-        <SineWave />
+        <VoiceRecordButton className="mb-50" />
+        {/* <CircleWave /> */}
+        {/* <CircleWaveButton /> */}
+
         {/* <WaveText className="absolute bottom-0 flex items-center justify-center w-screen h-screen pointer-events-none select-none" /> */}
       </main>
 

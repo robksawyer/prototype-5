@@ -59,7 +59,7 @@ const SineWave = (props) => {
     <Tag
       className={`${styles.sine_wave} ${
         styles[`sine_wave__${variant}`]
-      } ${className} absolute flex justify-center items-center w-screen h-screen`}
+      } ${className} absolute flex justify-center items-center w-full h-full`}
     >
       <svg ref={svg}>
         <g>
